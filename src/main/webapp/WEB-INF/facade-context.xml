@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:jee="http://www.springframework.org/schema/jee"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+  <!-- ================= publicgate START ================== -->
+  <bean id="publicgate" scope="prototype">
+    <property name="singleton" value="false" />
+    <property name="interceptorNames">
+      <list>
+        <idref bean="org.springframework.aop.interceptor.SimpleTraceInterceptor" />
+        <idref bean="jp.gmor.research.framework.core.api.interceptor.MygmorExceptionHandleInterceptor" />
+        <idref bean="org.springframework.transaction.interceptor.TransactionInterceptor" />
+        <idref bean="org.springframework.transaction.interceptor.TransactionInterceptor.net_dev" />
+      </list>
+    </property>
+  </bean>
+  <bean id="publicgate.impl" scope="prototype">
+    <property name="beanValidator">
+      <ref bean="org.springmodules.validation.bean.BeanValidator" />
+    </property>
+  </bean>
+  <!-- ================= publicgate END ================== -->
+
+  <bean id="jp.gmor.research.sampleapi.publicgate.CompanyPanelSelectFacade"
+        class="org.springframework.aop.framework.ProxyFactoryBean"
+        parent="publicgate">
+    <property name="proxyInterfaces">
+      <list>
+        <value>
+          jp.gmor.research.sampleapi.publicgate.CompanyPanelSelectFacade
+        </value>
+      </list>
+    </property>
+    <property name="targetName">
+      <idref local="jp.gmor.research.sampleapi.publicgate.impl.CompanyPanelSelectFacadeImpl" />
+    </property>
+  </bean>
+  <bean id="jp.gmor.research.sampleapi.publicgate.impl.CompanyPanelSelectFacadeImpl"
+        class="jp.gmor.research.sampleapi.publicgate.impl.CompanyPanelSelectFacadeImpl"
+        parent="publicgate.impl" scope="prototype">
+      <property name="companyPanelDisplayMstSelectService">
+        <ref bean="jp.gmor.research.sampleapi.common.service.CompanyPanelDisplayMstSelectService" />
+      </property>
+  </bean>
+
+  <bean id="jp.gmor.research.sampleapi.publicgate.CompanySelectFacade"
+        class="org.springframework.aop.framework.ProxyFactoryBean"
+        parent="publicgate">
+    <property name="proxyInterfaces">
+      <list>
+        <value>
+          jp.gmor.research.sampleapi.publicgate.CompanySelectFacade
+        </value>
+      </list>
+    </property>
+    <property name="targetName">
+      <idref local="jp.gmor.research.sampleapi.publicgate.impl.CompanySelectFacadeImpl" />
+    </property>
+  </bean>
+  <bean id="jp.gmor.research.sampleapi.publicgate.impl.CompanySelectFacadeImpl"
+        class="jp.gmor.research.sampleapi.publicgate.impl.CompanySelectFacadeImpl"
+        parent="publicgate.impl" scope="prototype">
+      <property name="companySelectService">
+        <ref bean="jp.gmor.research.sampleapi.common.service.CompanySelectService" />
+      </property>
+  </bean>
+
+</beans>

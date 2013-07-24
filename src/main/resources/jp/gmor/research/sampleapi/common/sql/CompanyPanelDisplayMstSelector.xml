@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE sqlMap
+  PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="jp.gmor.research.sampleapi.common.integration.impl">
+
+  <resultMap id="company-panel-display-mst-result" class="jp.gmor.research.sampleapi.common.domain.CompanyPanelDisplayMstDto" groupBy="panel_group_id">
+    <result property="company_id" column="company_id" />
+    <result property="panel_group_id" column="panel_group_id" />
+    <result property="display_order" column="display_order" />
+    <result property="display_nm" column="display_nm" />
+    <result property="tooltip_text" column="tooltip_text" />
+    <result property="default_select_kbn" column="default_select_kbn" />
+    <result property="panelTypeMstList" resultMap="jp.gmor.research.sampleapi.common.integration.impl.panel-type-mst-result" />
+  </resultMap>
+
+  <resultMap id="panel-type-mst-result" class="jp.gmor.research.sampleapi.common.domain.PanelTypeMstDto">
+    <result property="panel_type" column="panel_type" />
+  </resultMap>
+
+  <select id="jp.gmor.research.sampleapi.common.integration.impl.CompanyPanelDisplayMstSelectorImpl"
+    resultMap="company-panel-display-mst-result"
+    parameterClass="java.util.Map">
+
+    SELECT
+      cpdm.company_id
+      ,cpdm.panel_group_id
+      ,cpdm.display_order
+      ,cpdm.display_nm
+      ,cpdm.tooltip_text
+      ,cpdm.default_select_kbn
+      ,pgd.panel_type
+    FROM
+      company_panel_display_mst cpdm
+        INNER JOIN panel_group_head pgh
+          ON cpdm.panel_group_id = pgh.panel_group_id
+        INNER JOIN panel_group_detail pgd
+          ON pgh.panel_group_id = pgd.panel_group_id
+        INNER JOIN panel_type_mst ptm
+          ON pgd.panel_type = ptm.panel_type
+        INNER JOIN sagu_panel_mst spm
+          ON pgd.panel_type = spm.panel_type
+    WHERE
+      pgh.delete_flg = '0'
+      AND cpdm.company_id  = #company_id#
+      <isNotEmpty prepend="AND" property="country_cd">
+        spm.country_cd = #country_cd#
+      </isNotEmpty>
+    ORDER BY
+      cpdm.display_order,
+      ptm.priority
+
+  </select>
+</sqlMap>
+
+
+

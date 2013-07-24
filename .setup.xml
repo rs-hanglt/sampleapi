@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="setup" default="setup" basedir=".">
+
+  <property name="setup.properties.file" location="${basedir}/.setup.properties" />
+  <property file="${setup.properties.file}" />
+  <property environment="env" />
+  <property name="M2_REPO" location="${user.home}/.m2/repository" />
+
+  <property name="dir.main" location="${basedir}/src/main" />
+  <property name="dir.test" location="${basedir}/src/test" />
+  <property name="dir.webapp" location="${dir.main}/webapp" />
+  <property name="dir.main.lib" location="${dir.webapp}/WEB-INF/lib" />
+  <property name="dir.main.resources" location="${dir.main}/resources" />
+  <property name="dir.test.resources" location="${dir.test}/resources" />
+  <property name="dir.metainf" location="${dir.webapp}/META-INF" />
+
+  <condition property="File.Default.Path" value="file.default.path">
+    <os family="windows"/>
+  </condition>
+  <condition property="Data.Default.Path" value="data.default.path">
+    <os family="windows"/>
+  </condition>
+  <condition property="Tomcat.DocBase" value="tomcat.docBase">
+    <os family="windows"/>
+  </condition>
+
+  <target name="init">
+    <tstamp />
+  </target>
+
+  <target name="setup" depends="replaceOutPut,setupLib,setupConfig" />
+
+  <target name="delete-meta-xml">
+    <delete>
+          <fileset dir="${M2_REPO}/jp/gmor/research/framework">
+        <include name="**/maven-metadata-synergy.xml" />
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="replaceOutPut">
+    <replace file="${basedir}/.classpath">
+      <replacetoken>target/classes</replacetoken>
+      <replacevalue>src/main/webapp/WEB-INF/classes</replacevalue>
+    </replace>
+  </target>
+
+  <target name="setupLib">
+    <delete dir="${dir.main.lib}" />
+  </target>
+
+  <target name="setupConfig">
+    <copy todir="${dir.metainf}" overwrite="false" failonerror="${config.failonerror}">
+      <fileset file="${dir.config}/${dir.release.server}/context.xml" />
+      <filterset begintoken="@" endtoken="@">
+        <filtersfile file="${setup.properties.file}" />
+        <filter token="${Tomcat.DocBase}" value="${dir.webapp}" />
+      </filterset>
+    </copy>
+    <copy todir="${dir.main.resources}" overwrite="${config.overwrite}">
+      <fileset file="${dir.config}/${dir.release.server}/log4j.xml" />
+      <filterset begintoken="@" endtoken="@">
+        <filtersfile file="${setup.properties.file}" />
+      </filterset>
+    </copy>
+    <copy todir="${dir.test.resources}" overwrite="false" failonerror="${config.failonerror}">
+      <fileset file="${dir.config}/${dir.release.server}/${config.test.properties}" />
+    </copy>
+    <copy todir="${dir.main.resources}" overwrite="${config.overwrite}">
+      <fileset file="${dir.config}/*.properties" />
+      <filterset begintoken="@" endtoken="@">
+        <filter token="${File.Default.Path}" value="${dir.webapp}" />
+        <filter token="${Data.Default.Path}" value="${dir.webapp}" />
+        <filtersfile file="${setup.properties.file}" />
+      </filterset>
+    </copy>
+    <!--antcall target="file.Sepalator" /-->
+    <!--copy todir="${dir.test.resources}" overwrite="${config.overwrite}">
+      <fileset file="${dir.config}/log4j.xml" />
+      <filterset begintoken="@" endtoken="@">
+        <filtersfile file="${setup.properties.file}" />
+        <filter token="log4j.root.appender.ref" value="FILE" />
+      </filterset>
+    </copy-->
+  </target>
+
+  <condition property="windows" value="true">
+    <os family="windows"/>
+  </condition>
+  <target name="file.Sepalator" if="windows">
+    <replace file="${dir.main.resources}/fileUpload.properties" token="\" value="/" />
+  </target>
+  
+</project>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+  <company_panel_display_mst company_id="111" panel_group_id="1" display_order="3" display_nm="panel_group_1" tooltip_text="tooltip1" default_select_kbn="1"/>
+  <company_panel_display_mst company_id="111" panel_group_id="2" display_order="2" display_nm="panel_group_2" tooltip_text="tooltip2" default_select_kbn="1"/>
+  <company_panel_display_mst company_id="111" panel_group_id="3" display_order="1" display_nm="panel_group_3" tooltip_text="tooltip3" default_select_kbn="1"/>
+  <company_panel_display_mst company_id="111" panel_group_id="4" display_order="0" display_nm="panel_group_4" tooltip_text="tooltip4" default_select_kbn="0"/>
+  <company_panel_display_mst company_id="111" panel_group_id="5" display_order="0" display_nm="panel_group_5" tooltip_text="tooltip5" default_select_kbn="0"/>
+  <company_panel_display_mst company_id="111" panel_group_id="6" display_order="0" display_nm="panel_group_6" tooltip_text="tooltip6" default_select_kbn="0"/>
+  <company_panel_display_mst company_id="111" panel_group_id="7" display_order="0" display_nm="panel_group_7" tooltip_text="tooltip7" default_select_kbn="2"/>
+  <company_panel_display_mst company_id="111" panel_group_id="8" display_order="0" display_nm="panel_group_8" tooltip_text="tooltip8" default_select_kbn="2"/>
+  <company_panel_display_mst company_id="111" panel_group_id="9" display_order="0" display_nm="panel_group_9" tooltip_text="tooltip9" default_select_kbn="2"/>
+  <company_panel_display_mst company_id="222" panel_group_id="1" display_order="1" display_nm="panel_group_1" tooltip_text="tooltip1" default_select_kbn="1"/>
+  <company_panel_display_mst company_id="222" panel_group_id="2" display_order="2" display_nm="panel_group_2" tooltip_text="tooltip2" default_select_kbn="0"/>
+
+  <panel_group_head panel_group_id="1" delete_flg="0"/>
+  <panel_group_head panel_group_id="2" delete_flg="0"/>
+  <panel_group_head panel_group_id="3" delete_flg="0"/>
+  <panel_group_head panel_group_id="4" delete_flg="0"/>
+  <panel_group_head panel_group_id="5" delete_flg="0"/>
+  <panel_group_head panel_group_id="6" delete_flg="0"/>
+  <panel_group_head panel_group_id="7" delete_flg="1"/>
+  <panel_group_head panel_group_id="8" delete_flg="0"/>
+  <panel_group_head panel_group_id="9" delete_flg="0"/>
+
+  <panel_group_detail panel_group_id="1" panel_type="1"/>
+  <panel_group_detail panel_group_id="1" panel_type="2"/>
+  <panel_group_detail panel_group_id="2" panel_type="3"/>
+  <panel_group_detail panel_group_id="2" panel_type="4"/>
+  <panel_group_detail panel_group_id="2" panel_type="5"/>
+  <panel_group_detail panel_group_id="2" panel_type="6"/>
+  <panel_group_detail panel_group_id="3" panel_type="7"/>
+  <panel_group_detail panel_group_id="4" panel_type="8"/>
+  <panel_group_detail panel_group_id="5" panel_type="9"/>
+  <panel_group_detail panel_group_id="5" panel_type="10"/>
+  <panel_group_detail panel_group_id="6" panel_type="11"/>
+  <panel_group_detail panel_group_id="7" panel_type="12"/>
+  <panel_group_detail panel_group_id="8" panel_type="13"/>
+  <panel_group_detail panel_group_id="8" panel_type="14"/>
+  <panel_group_detail panel_group_id="8" panel_type="15"/>
+  <panel_group_detail panel_group_id="9" panel_type="16"/>
+  <panel_group_detail panel_group_id="9" panel_type="17"/>
+  <panel_group_detail panel_group_id="9" panel_type="18"/>
+
+  <panel_type_mst panel_type="1" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="1"/>
+  <panel_type_mst panel_type="3" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="3"/>
+  <panel_type_mst panel_type="4" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="4"/>
+  <panel_type_mst panel_type="5" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="5"/>
+  <panel_type_mst panel_type="8" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="8"/>
+  <panel_type_mst panel_type="9" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="9"/>
+  <panel_type_mst panel_type="10" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="10"/>
+  <panel_type_mst panel_type="11" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="11"/>
+  <panel_type_mst panel_type="12" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="12"/>
+  <panel_type_mst panel_type="16" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="16"/>
+  <panel_type_mst panel_type="17" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="17"/>
+  <panel_type_mst panel_type="18" hour_12_display_flg="" hour_24_display_flg="" hour_48_display_flg="1" priority="18"/>
+
+  <sagu_panel_mst panel_type="1" country_cd="392"/>
+  <sagu_panel_mst panel_type="2" country_cd="392"/>
+  <sagu_panel_mst panel_type="3" country_cd="392"/>
+  <sagu_panel_mst panel_type="4" country_cd="392"/>
+  <sagu_panel_mst panel_type="5" country_cd="392"/>
+  <sagu_panel_mst panel_type="6" country_cd="392"/>
+  <sagu_panel_mst panel_type="7" country_cd="392"/>
+  <sagu_panel_mst panel_type="8" country_cd="392"/>
+  <sagu_panel_mst panel_type="9" country_cd="392"/>
+  <sagu_panel_mst panel_type="10" country_cd="392"/>
+  <sagu_panel_mst panel_type="11" country_cd="392"/>
+  <sagu_panel_mst panel_type="12" country_cd="392"/>
+  <sagu_panel_mst panel_type="13" country_cd="392"/>
+  <sagu_panel_mst panel_type="14" country_cd="392"/>
+  <sagu_panel_mst panel_type="15" country_cd="392"/>
+  <sagu_panel_mst panel_type="16" country_cd="1"/>
+  <sagu_panel_mst panel_type="17" country_cd="392"/>
+  <sagu_panel_mst panel_type="18" country_cd="1"/>
+</dataset>

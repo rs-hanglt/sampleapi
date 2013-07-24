@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:jee="http://www.springframework.org/schema/jee"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+  <bean id="jp.gmor.research.sampleapi.common.service.CompanyPanelDisplayMstSelectService"
+    class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces">
+      <list>
+        <value>
+          jp.gmor.research.sampleapi.common.service.CompanyPanelDisplayMstSelectService
+        </value>
+      </list>
+    </property>
+    <property name="singleton">
+      <value>false</value>
+    </property>
+    <property name="targetName">
+      <idref local="jp.gmor.research.sampleapi.common.service.impl.CompanyPanelDisplayMstSelectServiceImpl" />
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <idref bean="org.springframework.aop.interceptor.SimpleTraceInterceptor" />
+      </list>
+    </property>
+  </bean>
+  <bean id="jp.gmor.research.sampleapi.common.service.impl.CompanyPanelDisplayMstSelectServiceImpl"
+        class="jp.gmor.research.sampleapi.common.service.impl.CompanyPanelDisplayMstSelectServiceImpl"
+        scope="prototype">
+    <property name="companyPanelDisplayMstSelector">
+      <ref bean="jp.gmor.research.sampleapi.common.integration.CompanyPanelDisplayMstSelector" />
+    </property>
+  </bean>
+
+  <bean id="jp.gmor.research.sampleapi.common.service.CompanySelectService"
+    class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces">
+      <list>
+        <value>
+          jp.gmor.research.sampleapi.common.service.CompanySelectService
+        </value>
+      </list>
+    </property>
+    <property name="singleton">
+      <value>false</value>
+    </property>
+    <property name="targetName">
+      <idref local="jp.gmor.research.sampleapi.common.service.impl.CompanySelectServiceImpl" />
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <idref bean="org.springframework.aop.interceptor.SimpleTraceInterceptor" />
+      </list>
+    </property>
+  </bean>
+  <bean id="jp.gmor.research.sampleapi.common.service.impl.CompanySelectServiceImpl"
+        class="jp.gmor.research.sampleapi.common.service.impl.CompanySelectServiceImpl"
+        scope="prototype">
+    <property name="companySelector">
+      <ref bean="jp.gmor.research.sampleapi.common.integration.CompanySelector" />
+    </property>
+  </bean>
+
+</beans>

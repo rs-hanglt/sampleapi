@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE sqlMap
+  PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="jp.gmor.research.sampleapi.common.integration.impl">
+
+  <select id="CompanySelectorImpl"
+    resultClass="jp.gmor.research.sampleapi.common.domain.CompanyDto"
+    parameterClass="java.util.Map">
+
+    SELECT
+      co.company_id,
+      co.company_nm,
+      co.delete_flg,
+      co.use_matter_type,
+      co.collectnum_coefficient,
+      co.name_kj,
+      co.name_kn,
+      co.admin_auth_flg,
+      co.order_auth_flg,
+      co.inactive_order_auth_flg,
+      co.resend_policy_auth_flg,
+      co.note,
+      co.regist_user,
+      co.regist_date,
+      co.update_user,
+      co.update_date
+    FROM
+      company_relation cr
+        INNER JOIN company co 
+          ON cr.company_id = co.company_id 
+          AND co.delete_flg <![CDATA[<>]]> '1'
+    <dynamic prepend="WHERE">
+      <isNotEmpty prepend="AND" property="company.companyId"> co.company_id = #company.companyId# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.userCompanyId">
+        CASE (SELECT admin_auth_flg FROM company WHERE company_id = #company.userCompanyId#)
+          WHEN '1' THEN cr.admin_company_id = #company.userCompanyId#
+          ELSE cr.company_id = #company.userCompanyId#
+        END
+      </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.companyNm"> co.company_nm LIKE CONCAT('%', #company.companyNm#, '%') </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.registDateFrom">
+        DATE_FORMAT(co.regist_date,'%Y%m%d %T') <![CDATA[>=]]> DATE_FORMAT(#company.registDateFrom#,'%Y%m%d %T')
+      </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.registDateTo">
+        DATE_FORMAT(co.regist_date,'%Y%m%d %T') <![CDATA[<=]]> DATE_FORMAT(#company.registDateTo#,'%Y%m%d %T')
+      </isNotEmpty>
+    </dynamic>
+    order by co.company_id
+    <isNotNull property="company.limit">
+      LIMIT #company.limit#
+      <isNotNull property="company.offset">
+        OFFSET #company.offset#
+      </isNotNull>
+    </isNotNull>
+  </select>
+
+  <select id="CompanySelectorImpl#count"
+    resultClass="java.lang.Integer"
+    parameterClass="java.util.Map">
+
+    SELECT
+        count(*)
+    FROM
+      company_relation cr
+        INNER JOIN company co 
+          ON cr.company_id = co.company_id 
+          AND co.delete_flg <![CDATA[<>]]> '1'
+    <dynamic prepend="WHERE">
+      <isNotEmpty prepend="AND" property="company.companyId"> co.company_id = #company.companyId# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.userCompanyId">
+        CASE (SELECT admin_auth_flg FROM company WHERE company_id = #company.userCompanyId#)
+          WHEN '1' THEN cr.admin_company_id = #company.userCompanyId#
+          ELSE cr.company_id = #company.userCompanyId#
+        END
+      </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.companyNm"> co.company_nm LIKE CONCAT('%', #company.companyNm#, '%') </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.registDateFrom">
+        DATE_FORMAT(co.regist_date,'%Y%m%d %T') <![CDATA[>=]]> DATE_FORMAT(#company.registDateFrom#,'%Y%m%d %T')
+      </isNotEmpty>
+      <isNotEmpty prepend="AND" property="company.registDateTo">
+        DATE_FORMAT(co.regist_date,'%Y%m%d %T') <![CDATA[<=]]> DATE_FORMAT(#company.registDateTo#,'%Y%m%d %T')
+      </isNotEmpty>
+    </dynamic>
+  </select>
+
+</sqlMap>
+
+
+

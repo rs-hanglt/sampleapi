@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC "-//Apache Software Foundation//DTD Log4J Configuration 1.0//EN"
+    "http://renga.googlecode.com/svn-history/r4/vendor/logging-log4j-1.2.14/docs/api/org/apache/log4j/xml/log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p [%t] - %m (%C.java:%L)%n" />
+    </layout>
+  </appender>
+
+  <appender name="FILE" class="org.apache.log4j.FileAppender">
+    <param name="File" value="/usr/local/tomcat55sampleapi/logs/sampleapi.log" />
+    <param name="Append" value="true" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p (%t:%x) - %m (%F:%L)%n" />
+    </layout>
+  </appender>
+
+  <appender name="MAIL" class="jp.gmor.research.framework.tools.util.log.CustomizedSMTPAppender">
+    <param name="threshold" value="error" />
+    <param name="To" value="system-dev@gmo-research.jp" />
+    <param name="From" value="system-dev@gmo-research.jp" />
+    <param name="Subject" value="[sampleapi]infoQ System Error Report" />
+    <param name="SMTPHost" value="trelay1.lo.infoq.jp" />
+    <param name="BufferSize" value="10" />
+    <param name="Charset" value="ISO-2022-JP" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %-5p [%c{1}#M:%L] %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="RFILE" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="/usr/local/tomcat55sampleapi/logs/sampleapi.log" />
+    <param name="Append" value="true" />
+    <param name="MaxFileSize" value="10MB" />
+    <param name="MaxBackupIndex" value="5" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p (%t:%x) - %m (%F:%L)%n" />
+    </layout>
+  </appender>
+
+  <appender name="DFILE" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="/usr/local/tomcat55sampleapi/logs/sampleapi.log" />
+    <param name="Append" value="true" />
+    <param name="DatePattern" value="'.'yyyy-MM-dd" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p (%t:%x) - %m (%F:%L)%n" />
+    </layout>
+  </appender>
+
+  <category name="jp.gmor.research">
+    <priority value="info" />
+  </category>
+
+  <category name="java.sql.Connection">
+    <priority value="debug" />
+  </category>
+
+  <category name="java.sql.Statement">
+    <priority value="info" />
+  </category>
+
+  <category name="java.sql.PreparedStatement">
+    <priority value="debug" />
+  </category>
+
+  <category name="java.sql.ResultSet">
+    <priority value="info" />
+  </category>
+
+  <category name="net.arnx.jsonic.web.RESTServlet">
+    <priority value="debug" />
+  </category>
+
+  <root>
+    <priority value="info" />
+    <appender-ref ref="DFILE" />
+    <appender-ref ref="MAIL" />
+  </root>
+</log4j:configuration>

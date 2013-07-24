@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:jee="http://www.springframework.org/schema/jee"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+  <!--util:properties id="jdbcConfiguration"
+      location="classpath:test.properties" /-->
+
+  <util:properties id="application.properties" location="classpath:application.properties" />
+  <bean id="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+        scope="singleton">
+    <property name="locations">
+      <list>
+        <value>src/test/resources/test.properties</value>
+        <value>src/test/resources/application.properties</value>
+      </list>
+    </property>
+    <property name="ignoreResourceNotFound"><value>false</value></property>
+  </bean>
+  <!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+  <!-- Main JNDI DataSource for J2EE environments -->
+  <!-- Refers to the main database, containing product and account data -->
+  <!--jee:jndi-lookup id="dataSource"
+    jndi-name="java:comp/env/jdbc/connectionFactory" /-->
+
+  <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName"><value>${jdbc.driver.class}</value></property>
+    <property name="url"><value>${jdbc.url}</value></property>
+    <property name="username"><value>${jdbc.user}</value></property>
+    <property name="password"><value>${jdbc.password}</value></property>
+  </bean>
+
+  <!-- SqlMap setup for iBATIS Database Layer -->
+  <bean id="sqlMapClient"
+        class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <property name="configLocation" value="src/main/resources/sql-map-config.xml" />
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <bean id="sqlMapClientSlave"
+        class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <property name="configLocation" value="src/main/resources/sql-map-config.xml" />
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <bean id="sqlMapClientNetDev"
+        class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <property name="configLocation" value="src/main/resources/sql-map-config.xml" />
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <bean id="sqlMapClientSlaveNetDev"
+        class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <property name="configLocation" value="src/main/resources/sql-map-config.xml" />
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <bean id="org.springframework.transaction.PlatformTransactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource">
+      <ref bean="dataSource"/>
+    </property>
+  </bean>
+
+  <bean id="org.springframework.transaction.PlatformTransactionManager.net_dev"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource">
+      <ref bean="dataSource"/>
+    </property>
+  </bean>
+
+  <bean id="org.springframework.transaction.interceptor.TransactionInterceptor"
+        class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    <property name="transactionManager">
+      <ref bean="org.springframework.transaction.PlatformTransactionManager"/>
+    </property>
+    <property name="transactionAttributeSource">
+      <bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+    </property>
+  </bean>
+
+  <bean id="org.springframework.transaction.interceptor.TransactionInterceptor.net_dev"
+        class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    <property name="transactionManager">
+      <ref bean="org.springframework.transaction.PlatformTransactionManager.net_dev"/>
+    </property>
+    <property name="transactionAttributeSource">
+      <bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+    </property>
+  </bean>
+
+  <bean id="jp.gmor.research.framework.core.utils.ServiceFactory"
+    class="jp.gmor.research.framework.test.DummyServiceFactoryImpl"
+    scope="singleton" />
+
+  <bean id="org.springframework.aop.interceptor.SimpleTraceInterceptor"
+    class="org.springframework.aop.interceptor.SimpleTraceInterceptor"
+    scope="singleton">
+    <property name="useDynamicLogger">
+      <value>${traceInterceptor}</value>
+    </property>
+  </bean>
+
+  <bean name="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basenames">
+      <list>
+        <value>application</value>
+        <value>location</value>
+        <value>MessageResources</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="jp.gmor.research.framework.core.context.ApplicationContextService"
+        class="jp.gmor.research.framework.core.context.ApplicationContextService">
+    <!--property name="localeHelper">
+      <ref local="localeHelper" />
+    </property-->
+  </bean>
+
+  <bean class="jp.gmor.research.framework.core.utils.message.ApplicationMessageUtils" >
+    <property name="applicationContextService">
+      <ref local="jp.gmor.research.framework.core.context.ApplicationContextService" />
+    </property>
+  </bean>
+
+  <bean id="jp.gmor.research.framework.core.api.interceptor.MygmorValidationInterceptor"
+    class="jp.gmor.research.framework.core.api.interceptor.MygmorValidationInterceptor"
+    scope="singleton">
+    <property name="beanValidator">
+      <ref bean="org.springmodules.validation.bean.BeanValidator" />
+    </property>
+  </bean>
+
+  <bean id="org.springmodules.validation.bean.BeanValidator"
+    class="org.springmodules.validation.bean.BeanValidator">
+    <property name="configurationLoader"
+      ref="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader" />
+  </bean>
+
+  <bean id="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader"
+    class="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader">
+    <property name="handlerRegistry">
+      <bean class="jp.gmor.research.sampleapi.common.validator.SampleValidationAnnotationHandlerRegistry" />
+    </property>
+  </bean>
+
+  <bean id="jp.gmor.research.framework.core.api.interceptor.MygmorExceptionHandleInterceptor"
+    class="jp.gmor.research.framework.core.api.interceptor.MygmorExceptionHandleInterceptor"
+    scope="singleton">
+  </bean>
+
+  <bean id="jp.gmor.research.framework.tools.util.mail.SendSimpleEmail"
+        class="jp.gmor.research.framework.test.util.mail.impl.SendSimpleEmailDummy"
+        scope="prototype">
+  </bean>
+  <bean id="jp.gmor.research.framework.tools.util.mail.SendSimpleEmailUnicode"
+        class="jp.gmor.research.framework.test.util.mail.impl.SendSimpleEmailDummy"
+        scope="prototype">
+  </bean>
+
+  <bean id="org.apache.commons.httpclient.HttpClient"
+        class="org.apache.commons.httpclient.HttpClientDummy"
+        scope="prototype">
+  </bean>
+
+</beans>

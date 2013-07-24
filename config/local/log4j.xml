@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC "-//Apache Software Foundation//DTD Log4J Configuration 1.0//EN"
+    "http://renga.googlecode.com/svn-history/r4/vendor/logging-log4j-1.2.14/docs/api/org/apache/log4j/xml/log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p [%t] - %m (%C.java:%L)%n" />
+    </layout>
+  </appender>
+
+  <appender name="FILE" class="org.apache.log4j.FileAppender">
+    <param name="File" value="sampleapi.log" />
+    <param name="Append" value="false" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p (%t:%x) - %m (%F:%L)%n" />
+    </layout>
+  </appender>
+
+  <category name="jp.gmor.research">
+    <priority value="debug" />
+  </category>
+
+  <category name="java.sql">
+    <priority value="debug" />
+  </category>
+
+  <category name="net.arnx.jsonic.web.RESTServlet">
+    <priority value="debug" />
+  </category>
+
+  <root>
+    <priority value="info" />
+    <appender-ref ref="STDOUT" />
+  </root>
+</log4j:configuration>

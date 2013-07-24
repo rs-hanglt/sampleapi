@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:jee="http://www.springframework.org/schema/jee"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+  <bean id="jp.gmor.research.sampleapi.common.integration.CompanyPanelDisplayMstSelector"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces">
+      <list>
+        <value>jp.gmor.research.sampleapi.common.integration.CompanyPanelDisplayMstSelector</value>
+      </list>
+    </property>
+    <property name="singleton">
+      <value>false</value>
+    </property>
+    <property name="targetName">
+      <idref local="jp.gmor.research.sampleapi.common.integration.impl.CompanyPanelDisplayMstSelectorImpl" />
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <idref bean="org.springframework.aop.interceptor.SimpleTraceInterceptor" />
+      </list>
+    </property>
+  </bean>
+  <bean id="jp.gmor.research.sampleapi.common.integration.impl.CompanyPanelDisplayMstSelectorImpl"
+        class="jp.gmor.research.sampleapi.common.integration.impl.CompanyPanelDisplayMstSelectorImpl"
+        scope="prototype">
+    <property name="sqlMapClient">
+      <ref bean="sqlMapClientSlaveNetDev" />
+    </property>
+  </bean>
+
+  <bean id="jp.gmor.research.sampleapi.common.integration.CompanySelector"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces">
+      <list>
+        <value>jp.gmor.research.sampleapi.common.integration.CompanySelector</value>
+      </list>
+    </property>
+    <property name="singleton">
+      <value>false</value>
+    </property>
+    <property name="targetName">
+      <idref local="jp.gmor.research.sampleapi.common.integration.impl.CompanySelectorImpl" />
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <idref bean="org.springframework.aop.interceptor.SimpleTraceInterceptor" />
+      </list>
+    </property>
+  </bean>
+  <bean id="jp.gmor.research.sampleapi.common.integration.impl.CompanySelectorImpl"
+        class="jp.gmor.research.sampleapi.common.integration.impl.CompanySelectorImpl"
+        scope="prototype">
+    <property name="sqlMapClient">
+      <ref bean="sqlMapClientSlaveNetDev" />
+    </property>
+  </bean>
+
+</beans>
