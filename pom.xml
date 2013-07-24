@@ -3,7 +3,7 @@
   <groupId>jp.gmor.research</groupId>
   <artifactId>sampleapi</artifactId>
   <packaging>war</packaging>
-  <version>1.0.00-SNAPSHOT</version>
+  <version>1.0.00</version>
   <name>${artifactId} Webapp</name>
   <url>${synergy-home-url}</url>
   <organization>
@@ -577,7 +577,7 @@
 <maven.clover.encoding>MS932</maven.clover.encoding>
 <maven.test.skip>true</maven.test.skip>
 <war-plugin-web.xml>${basedir}/src/main/webapp/WEB-INF/web.xml</war-plugin-web.xml>
-<war-plugin-warSourceExcludes/>
+<war-plugin-warSourceExcludes />
 </properties>
 </profile>
 </profiles>
