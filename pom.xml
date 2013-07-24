@@ -384,7 +384,7 @@
     </extensions>
   </build>
   <scm>
-    <developerConnection>https://github.com/gr-terasawa/sampleapi.git</developerConnection>
+    <developerConnection>scm:git:git://github.com/gr-terasawa/sampleapi.git</developerConnection>
   </scm>
   <repositories>
     <repository>
