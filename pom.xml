@@ -30,21 +30,21 @@
     <dependency>
       <groupId>jp.gmor.research.framework</groupId>
       <artifactId>gmor-framework-core</artifactId>
-      <version>${synergy-core-version}</version>
+      <version>1.1.0</version>
       <scope>compile</scope>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>jp.gmor.research.framework</groupId>
       <artifactId>gmor-framework-tools</artifactId>
-      <version>${synergy-tools-version}</version>
+      <version>1.3.4</version>
       <scope>compile</scope>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>jp.gmor.research.framework</groupId>
       <artifactId>gmor-framework-test</artifactId>
-      <version>${synergy-test-version}</version>
+      <version>0.3.9</version>
       <scope>test</scope>
       <type>jar</type>
     </dependency>
@@ -290,7 +290,7 @@
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>${maven-clover2-plugin-version}</version>
+        <version>2.4.3</version>
         <configuration>
           <jdk>1.6</jdk>
           <generatePdf>true</generatePdf>
@@ -370,6 +370,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
+        <version>2.0-beta-9</version>
         <configuration>
           <preparationGoals>jspc:compile compile</preparationGoals>
         </configuration>
@@ -384,7 +385,9 @@
     </extensions>
   </build>
   <scm>
-    <developerConnection>scm:git:git://github.com/gr-terasawa/sampleapi.git</developerConnection>
+    <connection>scm:git:git@github.com:gr-terasawa/git-demo.git</connection>
+    <url>scm:git:git@github.com:gr-terasawa/git-demo.git</url>
+    <developerConnection>scm:git:git@github.com:gr-terasawa/git-demo.git</developerConnection>
   </scm>
   <repositories>
     <repository>
@@ -393,7 +396,7 @@
       </snapshots>
       <id>synergy</id>
       <name>Maven Repository Switchboard</name>
-      <url>${synergy-repository-url}</url>
+      <url>http://circle.gmo-research.jp/synergy</url>
       <releases>
         <checksumPolicy>warn</checksumPolicy>
       </releases>
@@ -403,7 +406,7 @@
   <distributionManagement>
     <site>
       <id>synergy</id>
-      <url>${synergy-site-url}</url>
+      <url>dav:http://circle.gmo-research.jp/synergy/site/sampleapi</url>
     </site>
   </distributionManagement>
   <reporting>
@@ -440,7 +443,7 @@
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>${maven-clover2-plugin-version}</version>
+        <version>2.4.3</version>
         <configuration>
           <jdk>1.6</jdk>
           <generatePdf>true</generatePdf>
@@ -510,4 +513,74 @@
     <outputEncoding>MS932</outputEncoding>
     <war-plugin-warSourceExcludes />
   </properties>
+
+<profiles>
+<profile>
+<id>release</id>
+<activation>
+<activeByDefault>false</activeByDefault>
+</activation>
+<properties>
+<maven.test.skip>true</maven.test.skip>
+<war-plugin-web.xml>${basedir}/target/jspweb.xml</war-plugin-web.xml>
+<war-plugin-warSourceExcludes>**/*.jsp</war-plugin-warSourceExcludes>
+</properties>
+</profile>
+<profile>
+<id>server</id>
+<activation>
+<activeByDefault>false</activeByDefault>
+</activation>
+<properties>
+<locales>ja</locales>
+<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+<encoding>UTF-8</encoding>
+<docencoding>UTF-8</docencoding>
+<charset>UTF-8</charset>
+<jxr-inputEncoding>UTF-8</jxr-inputEncoding>
+<jxr-outputEncoding>UTF-8</jxr-outputEncoding>
+<inputEncoding>UTF-8</inputEncoding>
+<outputEncoding>UTF-8</outputEncoding>
+</properties>
+</profile>
+<profile>
+<id>synergy-options</id>
+<activation>
+<activeByDefault>true</activeByDefault>
+</activation>
+<properties>
+<synergy-home-url>http://circle.gmo-research.jp/trac/synergy</synergy-home-url>
+<synergy-scm-url>https://github.com/gr-terasawa/sampleapi.git</synergy-scm-url>
+<synergy-core-version>1.1.0</synergy-core-version>
+<synergy-tools-version>1.3.4</synergy-tools-version>
+<synergy-test-version>0.3.9</synergy-test-version>
+<synergy-repository-url>http://circle.gmo-research.jp/synergy</synergy-repository-url>
+<synergy-site-url>dav:http://circle.gmo-research.jp/synergy/site/sampleapi</synergy-site-url>
+<synergy-checkStyle-name>synergyChecks</synergy-checkStyle-name>
+</properties>
+</profile>
+<profile>
+<id>dependency-options</id>
+<activation>
+<activeByDefault>true</activeByDefault>
+</activation>
+<properties>
+<maven-clover2-plugin-version>2.4.3</maven-clover2-plugin-version>
+</properties>
+</profile>
+<profile>
+<id>clover-instrument</id>
+<activation>
+<activeByDefault>false</activeByDefault>
+</activation>
+<properties>
+<maven.clover.encoding>MS932</maven.clover.encoding>
+<maven.test.skip>true</maven.test.skip>
+<war-plugin-web.xml>${basedir}/src/main/webapp/WEB-INF/web.xml</war-plugin-web.xml>
+<war-plugin-warSourceExcludes/>
+</properties>
+</profile>
+</profiles>
+
+
 </project>
