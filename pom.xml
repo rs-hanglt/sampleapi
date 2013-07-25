@@ -3,7 +3,7 @@
   <groupId>jp.gmor.research</groupId>
   <artifactId>sampleapi</artifactId>
   <packaging>war</packaging>
-  <version>1.0.01</version>
+  <version>1.0.02-SNAPSHOT</version>
   <name>${artifactId} Webapp</name>
   <url>${synergy-home-url}</url>
   <organization>
