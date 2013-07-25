@@ -6,7 +6,7 @@
   version="2.4">
 
   <description>sampleapi Project</description>
-  <display-name>sampleapi</display-name>
+  <display-name>sampleapi-1.0.02</display-name>
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
