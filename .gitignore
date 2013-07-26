@@ -1,5 +1,7 @@
 # Directories #
 target/
+META-INF/
+classes/
 
 # Class Files #
 *.class
