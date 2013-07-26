@@ -1,0 +1,20 @@
+# Directories #
+target/
+
+# Class Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+
+######################
+# Eclipse
+######################
+.project
+.metadata
+.settings
+.checkstyle
+.classpath
+.project
+
